@@ -1,0 +1,5 @@
+spring:
+  application:
+    name: danmu-egame
+  profiles:
+    active: local

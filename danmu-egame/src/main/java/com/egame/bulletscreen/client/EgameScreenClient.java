@@ -2,6 +2,7 @@ package com.egame.bulletscreen.client;
 
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
+import com.egame.bulletscreen.Dao.DammuDAO;
 import com.egame.bulletscreen.constents.GlobalConstant;
 import com.egame.bulletscreen.pojo.Danmu;
 import com.egame.bulletscreen.repository.DanmuRepository;
@@ -28,6 +29,16 @@ public class EgameScreenClient {
 
     public static final Logger LOGGER = LoggerFactory.getLogger(EgameScreenClient.class);
 
+    private boolean flag = true;
+
+    public boolean isFlag() {
+        return flag;
+    }
+
+    public void setFlag(boolean flag) {
+        this.flag = flag;
+    }
+
     /**
      * @Description: 获取弹幕存入mongodb
      * @Param: anchor_id
@@ -35,7 +46,7 @@ public class EgameScreenClient {
      * @Author: sickle
      * @Date: 2018/10/16
      */
-    public static void getBullet(Integer anchor_id, DanmuRepository danmuRepository) {
+    public void getBullet(Integer anchor_id, DammuDAO danmuDAO) {
         String vid = anchor_id + "_1539131261";
 
         String data = "param={\"key\":{\"module\":\"pgg_live_barrage_svr\",\"method\":\"get_barrage\",\"param\":{\"anchor_id\":" + anchor_id + ",\"vid\":\"" + vid + "\",\"scenes\":4096,\"last_tm\":1537163282}}}&app_info={\"platform\":4,\"terminal_type\":2,\"egame_id\":\"egame_official\",\"version_code\":\"9.9.9.9\",\"version_name\":\"9.9.9.9\"}&tt=1";
@@ -49,7 +60,7 @@ public class EgameScreenClient {
                 .build();
         try {
             String realUrl = UrlEncodeUtil.urlEncode(GlobalConstant.HOME_URL, data);
-            while (true) {
+            while (flag) {
                 HttpGet httpGet = new HttpGet(realUrl);
                 httpGet.setConfig(requestConfig);
                 String strResult = "";
@@ -77,7 +88,7 @@ public class EgameScreenClient {
                                 danmu.setTalkName(object.getString("nick"));
                                 danmu.setText(object.getString("content"));
                                 danmu.setTime(object.getString("tm"));
-                                danmuRepository.save(danmu);
+                                danmuDAO.save(danmu);
                             }
                         }
                     } else {

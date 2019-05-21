@@ -20,13 +20,13 @@ public class mogodbTest {
         try {
             // 连接到 mongodb 服务
 
-            MongoCredential credential = MongoCredential.createScramSha1Credential("test", "testdb", "123456".toCharArray());
+            MongoCredential credential = MongoCredential.createScramSha1Credential("daifei", "daifei", "evtape".toCharArray());
 
-            MongoClient mongoClient = new MongoClient(new ServerAddress("192.168.181.129", 27017), Arrays.asList(credential));
+            MongoClient mongoClient = new MongoClient(new ServerAddress("118.24.103.124", 27017), Arrays.asList(credential));
             // 连接到数据库
-            MongoDatabase mongoDatabase = mongoClient.getDatabase("testdb");
+            MongoDatabase mongoDatabase = mongoClient.getDatabase("daifei");
             System.out.println("数据库连接成功！");
-            MongoCollection<Document> collection = mongoDatabase.getCollection("danmu");
+            MongoCollection<Document> collection = mongoDatabase.getCollection("daifei");
             System.out.println("集合 test 选择成功");
             //插入文档
             /**

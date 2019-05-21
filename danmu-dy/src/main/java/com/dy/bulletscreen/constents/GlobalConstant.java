@@ -20,6 +20,8 @@ public class GlobalConstant {
     */
     public static final String HOME_URL = "openbarrage.douyutv.com";
 
+
+    public static final String HUYA="ws.api.huya.com";
     /**
     * @Description: 第三方弹幕协议服务器端口
     * @Param:

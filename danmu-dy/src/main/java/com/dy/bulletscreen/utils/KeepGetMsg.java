@@ -13,19 +13,22 @@ public class KeepGetMsg extends Thread {
 
     public DanmuRepository danmuRepository;
 
-    public KeepGetMsg(DanmuRepository danmuRepository) {
+    public DyBulletScreenClient danmuClient;
+
+    public KeepGetMsg(DanmuRepository danmuRepository, DyBulletScreenClient danmuClient) {
         this.danmuRepository = danmuRepository;
+        this.danmuClient = danmuClient;
     }
 
     @Override
     public void run() {
         ////获取弹幕客户端
-        DyBulletScreenClient danmuClient = DyBulletScreenClient.getInstance();
+//        DyBulletScreenClient danmuClient = DyBulletScreenClient.getInstance();
 
         //判断客户端就绪状态
         while (danmuClient.getReadyFlag()) {
             //获取服务器发送的弹幕信息
-            danmuClient.getServerMsg(danmuRepository);
+            danmuClient.getServerMsg();
             ;
         }
     }

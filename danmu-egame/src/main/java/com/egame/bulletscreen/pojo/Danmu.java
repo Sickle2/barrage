@@ -1,10 +1,14 @@
 package com.egame.bulletscreen.pojo;
 
 
+import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
+import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
+
+import java.io.Serializable;
 
 /**
  * @program: barrage
@@ -15,8 +19,11 @@ import org.springframework.data.mongodb.core.mapping.Document;
 @ToString
 @Setter
 @Getter
-@Document
-public class Danmu {
+@Document(collection = "Danmu")
+@Data
+public class Danmu implements Serializable {
+    private static final long serialVersionUID = -3258839839160856613L;
+//    private Long id;
     //弹幕内容
     private String text;
     //用户姓名

@@ -5,4 +5,4 @@ spring:
     active: local
   data:
     mongodb:
-      uri: mongodb://test:123456@192.168.181.129:27017/testdb
+      uri: mongodb://test:123456@192.168.31.41:27017/testdb

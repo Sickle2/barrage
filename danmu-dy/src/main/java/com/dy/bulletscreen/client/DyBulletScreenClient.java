@@ -8,6 +8,8 @@ import com.dy.bulletscreen.repository.DanmuRepository;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
@@ -22,11 +24,13 @@ import java.util.Optional;
  * @author: FerroD
  * @date: 2016-3-12
  */
+@Service
 public class DyBulletScreenClient {
     private static final Logger LOGGER = LoggerFactory.getLogger(DyBulletScreenClient.class);
 
-    private static DyBulletScreenClient instance;
-
+//    private static DyBulletScreenClient instance;
+    @Autowired
+    public DanmuRepository danmuRepository;
 
     //socket相关配置
     private Socket sock;
@@ -36,20 +40,20 @@ public class DyBulletScreenClient {
     //获取弹幕线程及心跳线程运行和停止标记
     private boolean readyFlag = false;
 
-    private DyBulletScreenClient() {
-    }
+//    private DyBulletScreenClient() {
+//    }
 
     /**
      * 单例获取方法，客户端单例模式访问
      *
      * @return
      */
-    public static DyBulletScreenClient getInstance() {
-        if (null == instance) {
-            instance = new DyBulletScreenClient();
-        }
-        return instance;
-    }
+//    public static DyBulletScreenClient getInstance() {
+//        if (null == instance) {
+//            instance = new DyBulletScreenClient();
+//        }
+//        return instance;
+//    }
 
     /**
      * 客户端初始化，连接弹幕服务器并登陆房间及弹幕池
@@ -171,7 +175,7 @@ public class DyBulletScreenClient {
     /**
      * 获取服务器返回信息
      */
-    public void getServerMsg(DanmuRepository danmuRepository) {
+    public void getServerMsg() {
         //初始化获取弹幕服务器返回信息包大小
         byte[] recvByte = new byte[GlobalConstant.MAX_BUFFER_LENGTH];
         //定义服务器返回信息的字符串
@@ -192,14 +196,14 @@ public class DyBulletScreenClient {
                 //对黏包中最后一个数据包进行解析
                 MsgView msgView = new MsgView(StringUtils.substring(dataStr, dataStr.lastIndexOf("type@=")));
                 //分析该包的数据类型，以及根据需要进行业务操作
-                parseServerMsg(msgView.getMessageList(), danmuRepository);
+                parseServerMsg(msgView.getMessageList());
                 //处理黏包中的剩余部分
                 dataStr = StringUtils.substring(dataStr, 0, dataStr.lastIndexOf("type@=") - 12);
             }
             //对单一数据包进行解析
             MsgView msgView = new MsgView(StringUtils.substring(dataStr, dataStr.lastIndexOf("type@=")));
             //分析该包的数据类型，以及根据需要进行业务操作
-            parseServerMsg(msgView.getMessageList(), danmuRepository);
+            parseServerMsg(msgView.getMessageList());
 
         } catch (Exception e) {
             e.printStackTrace();
@@ -211,7 +215,7 @@ public class DyBulletScreenClient {
      *
      * @param msg
      */
-    private void parseServerMsg(Map<String, Object> msg, DanmuRepository danmuRepository) {
+    private void parseServerMsg(Map<String, Object> msg) {
         if (msg.get("type") != null) {
 
             //服务器反馈错误信息

@@ -1,10 +1,13 @@
 package com.dy.bulletscreen.pojo;
 
 
+import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
 import org.springframework.data.mongodb.core.mapping.Document;
+
+import java.io.Serializable;
 
 /**
  * @program: barrage
@@ -13,10 +16,13 @@ import org.springframework.data.mongodb.core.mapping.Document;
  * @create: 2018-10-11 16:20
  **/
 @ToString
-@Getter
 @Setter
-@Document
-public class Danmu {
+@Getter
+@Document(collection = "Danmu")
+@Data
+public class Danmu implements Serializable {
+    private static final long serialVersionUID = -3258839839160856613L;
+//    private Long id;
     //弹幕内容
     private String text;
     //用户姓名
